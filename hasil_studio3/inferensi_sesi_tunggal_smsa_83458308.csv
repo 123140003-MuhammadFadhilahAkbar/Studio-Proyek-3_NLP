@@ -1,0 +1,4 @@
+backbone,params_total (juta),latensi_batch1_ms_per_kalimat,throughput_batch64_ms_per_kalimat,gpu
+mbert,177.9,17.44687926000097,1.7562787070623904,Tesla T4
+distilmbert,135.3,9.26131624500158,0.9138069012839074,Tesla T4
+indobert,124.4,17.97221142000126,1.4306065353131245,Tesla T4

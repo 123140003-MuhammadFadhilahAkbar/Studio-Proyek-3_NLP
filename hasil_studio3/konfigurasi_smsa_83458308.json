@@ -1,0 +1,28 @@
+{
+  "dataset": "smsa",
+  "mode": "penuh",
+  "backbones": {
+    "mbert": "bert-base-multilingual-cased",
+    "distilmbert": "distilbert-base-multilingual-cased",
+    "indobert": "indobenchmark/indobert-base-p1"
+  },
+  "strategies": {
+    "full": 2e-05,
+    "partial": 3e-05,
+    "probing": 0.002
+  },
+  "seeds": [
+    42,
+    123,
+    2024
+  ],
+  "data_seed": 42,
+  "max_length": 128,
+  "batch_size": 32,
+  "epochs": 3,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.1,
+  "grad_clip": 1.0,
+  "train_subset": null,
+  "eval_subset": null
+}
