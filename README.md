@@ -22,7 +22,9 @@ Rancangan eksperimen: **3 backbone × 3 strategi × 3 seed = 27 run**, protokol 
 
 - Backbone: mBERT (`bert-base-multilingual-cased`), DistilmBERT (`distilbert-base-multilingual-cased`), IndoBERT (`indobenchmark/indobert-base-p1`). Model English-only tidak dipakai karena datasetnya Bahasa Indonesia.
 - Strategi: full fine-tuning (baseline), partial freezing (embedding + separuh lapis awal), linear probing (hanya head).
-- Head replacement ke 3 kelas berlaku di semua run. Evaluasi memakai pembagian validasi resmi karena label uji resmi disembunyikan.
+- Head replacement ke 3 kelas berlaku di semua run.
+- Data (Slide 10 Lembar Soal): latih **6.000** (subset terstratifikasi), validasi resmi **hanya untuk memilih epoch terbaik**, uji = **seluruh 500 kalimat uji resmi** (`test_preprocess.tsv`), disentuh sekali per run.
+- Pembanding (Slide 11): baseline **TF-IDF + regresi logistik** dan tebakan acak pada uji resmi yang sama.
 
 Metrik per run: akurasi, F1 makro, waktu latih, waktu inferensi (ms/kalimat), parameter total dan yang dilatih, serta memori puncak. Hasil dilaporkan sebagai **rata-rata ± simpangan baku antar-seed**.
 
@@ -37,11 +39,16 @@ Metrik per run: akurasi, F1 makro, waktu latih, waktu inferensi (ms/kalimat), pa
 
 - `hasil_smsa_<kode>.csv` — semua run.
 - `rekap_agregat_smsa_<kode>.csv` — rata-rata ± simpangan baku antar-seed.
+- `baseline_smsa_<kode>.csv` — skor baseline TF-IDF & tebakan acak.
 - Grafik PNG (performa, trade-off, sebaran antar-seed, confusion matrix) dan arsip zip dari bagian 14.
 
-## Catatan
+## Pertanyaan Riset Wajib (Slide 9 Lembar Soal)
 
-Teks resmi **3 Pertanyaan Riset Wajib** tidak termuat di PDF spesifikasi. Pertanyaan tersebut dimintakan ke dosen, lalu jawabannya diisi pada bagian 13.3 notebook.
+- **Q1** — Backbone mana yang memberi trade-off akurasi-vs-efisiensi terbaik? (F1 makro ± SD, waktu latih, waktu inferensi, jumlah parameter)
+- **Q2** — Apakah strategi hemat komputasi (probing/partial) cukup kompetitif dibanding full fine-tuning? (selisih vs simpangan antar-seed)
+- **Q3** — Kombinasi apa yang direkomendasikan, dan mengapa? (kriteria ditetapkan dulu di Rancangan)
+
+Tabel bukti otomatis ada di bagian 12.1 notebook; jawaban naratif di bagian 13.
 
 ## Batas waktu
 
