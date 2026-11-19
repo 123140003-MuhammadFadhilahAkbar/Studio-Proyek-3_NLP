@@ -1,0 +1,5 @@
+model,n_latih,accuracy,f1_macro,train_time_s
+TF-IDF + LogReg (latih penuh),10919,0.77,0.6785987248024886,6.430635571000039
+TF-IDF + LogReg (subset latih yang sama),6000,0.738,0.6300032396133424,2.969891754999992
+Tebakan acak (seragam),6000,0.3173333333333333,0.3060657019192417,0.0
+Kelas mayoritas,6000,0.416,0.19585687382297554,0.0

@@ -1,0 +1,12 @@
+{
+  "dataset": "SmSA (IndoNLU, Opsi A) — sentimen 3 kelas Bahasa Indonesia; latih 6.000 (subset), validasi resmi untuk pilih epoch, uji resmi 500 disentuh sekali per run",
+  "alasan_dataset_dan_subset": "Sesuai konteks sentimen teks Indonesia & dilabeli manusia; 6.000 = batas atas Slide 10 agar netral cukup terwakili dan 27 run tetap muat anggaran GPU T4",
+  "matriks": "3 backbone (mBERT, DistilmBERT, IndoBERT) x 3 strategi (full, partial, probing) x 3 seed = 27 run",
+  "H1": "IndoBERT > mBERT (F1 makro, full FT) karena pretraining berbahasa Indonesia",
+  "H2": "DistilmBERT lebih cepat (latih & inferensi) dari mBERT dengan penurunan F1 makro <= 3 poin; besaran penghematan diuji, bukan diasumsikan",
+  "H3": "full >= partial > probing; partial mendekati full (<= 2 poin) dengan parameter latih jauh lebih sedikit",
+  "alasan_desain": "Head diganti ke 3 kelas; full sebagai baseline; partial & probing menguji kebutuhan adaptasi lapis; LR per strategi",
+  "variabel_terkendali": "max_length=128, batch=32, epoch maks=3 (pilih via validasi), seeds=[42, 123, 2024], latih=6000, AdamW wd=0.01, warmup=0.1, clip=1.0",
+  "pembanding": "Baseline TF-IDF + regresi logistik (latih penuh & subset yang sama) dan tebakan acak; dievaluasi pada uji resmi yang sama",
+  "kriteria_Q1_Q3": "Q1: F1±SD, waktu latih, inferensi, parameter (Pareto F1 vs latensi); Q2: bermakna bila |selisih| > SD1+SD2; Q3: syarat > TF-IDF, skor 0,5 F1 + 0,25 inferensi + 0,25 latih (min-max)"
+}

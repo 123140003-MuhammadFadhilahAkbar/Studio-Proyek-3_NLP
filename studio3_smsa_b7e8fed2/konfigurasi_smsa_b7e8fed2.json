@@ -9,7 +9,7 @@
   "strategies": {
     "full": 2e-05,
     "partial": 3e-05,
-    "probing": 0.002
+    "probing": 0.005
   },
   "seeds": [
     42,
@@ -23,6 +23,9 @@
   "weight_decay": 0.01,
   "warmup_ratio": 0.1,
   "grad_clip": 1.0,
-  "train_subset": null,
-  "eval_subset": null
+  "train_subset": 6000,
+  "valid_subset": null,
+  "test_subset": null,
+  "seleksi_epoch": "f1_macro_validasi",
+  "evaluasi_akhir": "uji_resmi_smsa"
 }
