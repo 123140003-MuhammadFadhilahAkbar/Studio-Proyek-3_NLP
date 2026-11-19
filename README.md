@@ -1,9 +1,8 @@
-# Studio Proyek 3 — Fine-Tuning Transformer Pretrained untuk NLP
+# Studio Proyek 3: Fine-Tuning Transformer Pretrained untuk NLP
 
-**Mata Kuliah:** Pembelajaran Mendalam (IF25-40401) · **Kelas:** Deep Learning RA
-**Program Studi:** Teknik Informatika, Institut Teknologi Sumatera (ITERA)
+Tugas Studio Proyek 3 mata kuliah Pembelajaran Mendalam (IF25-40401), kelas Deep Learning RA, Teknik Informatika ITERA.
 
-**Kelompok 15**
+Kelompok 15:
 
 | No | Nama Lengkap | NIM |
 |:-:|---|---|
@@ -12,44 +11,40 @@
 
 ## Isi repositori
 
-- `Studio_Proyek_3_FineTuning_SmSA.ipynb` — notebook utama (satu berkas, berisi seluruh eksperimen).
+`Studio_Proyek_3_FineTuning_SmSA.ipynb` adalah notebook utama yang berisi seluruh eksperimen.
 
-## Ringkasan tugas
+## Ringkasan
 
-Klasifikasi sentimen teks Bahasa Indonesia (negatif / netral / positif) pada dataset **SmSA (IndoNLU; Wilie dkk., 2020)** dengan cara *fine-tuning* Transformer pretrained lewat HuggingFace.
+Kami melakukan fine-tuning model Transformer pretrained dari HuggingFace untuk klasifikasi sentimen kalimat Bahasa Indonesia (negatif, netral, positif) pada dataset SmSA dari IndoNLU (Wilie dkk., 2020).
 
-Rancangan eksperimen: **3 backbone × 3 strategi × 3 seed = 27 run**, protokol identik di semua run.
+Eksperimen terdiri dari 3 backbone, 3 strategi, dan 3 seed, sehingga totalnya 27 run dengan pengaturan yang sama.
 
-- Backbone: mBERT (`bert-base-multilingual-cased`), DistilmBERT (`distilbert-base-multilingual-cased`), IndoBERT (`indobenchmark/indobert-base-p1`). Model English-only tidak dipakai karena datasetnya Bahasa Indonesia.
-- Strategi: full fine-tuning (baseline), partial freezing (embedding + separuh lapis awal), linear probing (hanya head).
-- Head replacement ke 3 kelas berlaku di semua run.
-- Data (Slide 10 Lembar Soal): latih **6.000** (subset terstratifikasi), validasi resmi **hanya untuk memilih epoch terbaik**, uji = **seluruh 500 kalimat uji resmi** (`test_preprocess.tsv`), disentuh sekali per run.
-- Pembanding (Slide 11): baseline **TF-IDF + regresi logistik** dan tebakan acak pada uji resmi yang sama.
+- Backbone: mBERT (`bert-base-multilingual-cased`), DistilmBERT (`distilbert-base-multilingual-cased`), dan IndoBERT (`indobenchmark/indobert-base-p1`). Model khusus bahasa Inggris tidak dipakai karena datanya berbahasa Indonesia.
+- Strategi: full fine-tuning sebagai baseline, partial freezing (embedding dan separuh lapis awal dibekukan), dan linear probing (hanya head yang dilatih).
+- Head klasifikasi diganti menjadi 3 kelas di semua run.
+- Data latih berjumlah 6.000 kalimat (subset terstratifikasi). Data validasi resmi hanya dipakai untuk memilih epoch terbaik, dan data uji memakai seluruh 500 kalimat uji resmi (`test_preprocess.tsv`).
+- Sebagai pembanding, kami memakai TF-IDF + regresi logistik dan tebakan acak pada data uji yang sama.
 
-Metrik per run: akurasi, F1 makro, waktu latih, waktu inferensi (ms/kalimat), parameter total dan yang dilatih, serta memori puncak. Hasil dilaporkan sebagai **rata-rata ± simpangan baku antar-seed**.
+Setiap run mencatat akurasi, F1 makro, waktu latih, waktu inferensi (ms/kalimat), jumlah parameter total dan yang dilatih, serta memori puncak. Hasil dilaporkan sebagai rata-rata dan simpangan baku dari 3 seed.
 
 ## Cara menjalankan
 
-1. Buka notebook di Google Colab atau Kaggle, lalu aktifkan GPU T4 (Kaggle: nyalakan juga Internet).
-2. **Uji jalan sekali:** set `UJI_JALAN = True` (bagian 2), lalu *Run all*. Notebook memakai subset kecil, 1 seed, 1 epoch, dan menyimpan hasil ke berkas `*_uji_*` supaya berkas resmi tidak tercampur.
-3. **Eksperimen resmi:** set `UJI_JALAN = False`, tinjau bagian **Rancangan** (bagian 3), set `RANCANGAN_DIKONFIRMASI = True`, lalu *Run all*.
-4. Notebook menolak mode `"penuh"` selama Rancangan belum lengkap/dikonfirmasi. Setiap run langsung disimpan ke CSV, jadi sesi yang terputus bisa dilanjutkan tanpa mengulang run yang sudah selesai.
+1. Buka notebook di Google Colab atau Kaggle, lalu aktifkan GPU T4. Di Kaggle, nyalakan juga akses Internet.
+2. Untuk uji jalan, ubah `UJI_JALAN = True` di bagian 2 lalu jalankan semua sel. Mode ini hanya memakai subset kecil, 1 seed, dan 1 epoch, dan hasilnya disimpan terpisah di berkas `*_uji_*`.
+3. Untuk eksperimen sebenarnya, kembalikan `UJI_JALAN = False`, periksa bagian Rancangan (bagian 3), ubah `RANCANGAN_DIKONFIRMASI = True`, lalu jalankan semua sel.
+4. Setiap run langsung disimpan ke CSV. Jika sesi Colab terputus, jalankan ulang notebook dan run yang sudah selesai akan dilewati.
 
-## Keluaran
+## Berkas hasil
 
-- `hasil_smsa_<kode>.csv` — semua run.
-- `rekap_agregat_smsa_<kode>.csv` — rata-rata ± simpangan baku antar-seed.
-- `baseline_smsa_<kode>.csv` — skor baseline TF-IDF & tebakan acak.
-- Grafik PNG (performa, trade-off, sebaran antar-seed, confusion matrix) dan arsip zip dari bagian 14.
+- `hasil_smsa_<kode>.csv`: hasil semua run.
+- `rekap_agregat_smsa_<kode>.csv`: rata-rata dan simpangan baku antar-seed.
+- `baseline_smsa_<kode>.csv`: skor TF-IDF dan tebakan acak.
+- Grafik (performa, trade-off, sebaran antar-seed, confusion matrix) dan arsip zip dari bagian 14.
 
-## Pertanyaan Riset Wajib (Slide 9 Lembar Soal)
+## Pertanyaan riset
 
-- **Q1** — Backbone mana yang memberi trade-off akurasi-vs-efisiensi terbaik? (F1 makro ± SD, waktu latih, waktu inferensi, jumlah parameter)
-- **Q2** — Apakah strategi hemat komputasi (probing/partial) cukup kompetitif dibanding full fine-tuning? (selisih vs simpangan antar-seed)
-- **Q3** — Kombinasi apa yang direkomendasikan, dan mengapa? (kriteria ditetapkan dulu di Rancangan)
+1. Backbone mana yang memberi keseimbangan terbaik antara akurasi dan efisiensi?
+2. Apakah strategi yang lebih hemat (probing dan partial) cukup bersaing dengan full fine-tuning?
+3. Kombinasi mana yang kami rekomendasikan, dan apa alasannya?
 
-Tabel bukti otomatis ada di bagian 12.1 notebook; jawaban naratif di bagian 13.
-
-## Batas waktu
-
-Notebook & berkas hasil: **20 November 2026**. Slide dan laporan singkat dikumpulkan saat hari presentasi.
+Tabel pendukungnya ada di bagian 12.1 notebook, sedangkan pembahasan dan jawabannya ada di bagian 13.
